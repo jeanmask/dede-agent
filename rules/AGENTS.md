@@ -1,52 +1,52 @@
 ---
 trigger: model_decision
-description: "Ativar ao discutir arquitetura, criar ou revisar Technical Design Docs"
+description: "Activate when discussing architecture, authoring, or reviewing Technical Design Docs"
 ---
 
-# Governança de Arquitetura e Design Docs
+# Architecture Governance and Design Docs
 
-Ao atuar no domínio de arquitetura e Technical Design Docs, siga rigorosamente as diretrizes corporativas abaixo:
+When operating within software architecture and Technical Design Docs, strictly follow the corporate guidelines below:
 
-## 1. Critérios de Aplicabilidade
+## 1. Applicability Criteria
 
-Design Docs são mandatórios para projetos com:
+Design Docs are mandatory for projects with:
 
-- Impacto cross-squad e dependências entre múltiplos microsserviços.
-- Quebra de contratos de API ou eventos.
-- Novos componentes de nuvem (bancos, filas) ou adoção de vendors.
-- Processamento e armazenamento de dados sensíveis ou pessoais.
+- Cross-squad impact and dependencies across multiple microservices.
+- Breaking changes to API contracts or events.
+- New cloud components (databases, queues) or vendor/SaaS adoption.
+- Processing and storage of sensitive or personal data.
 
-## 2. Modelagem C4 Container (Nível 2)
+## 2. C4 Container Modeling (Level 2)
 
-- **Obrigatório**: Todo design doc deve conter diagrama C4 Container (Nível 2).
-- **Puro e Agnóstico**: Nós do C4 representam Topologia de Software e Runtime. É expressamente proibido colocar URLs de repositório Git, nomes de squads ou responsáveis físicos dentro dos nós do C4.
-- **Expansão Mandatória**: Sistemas cujo código/arquitetura interna será modificado devem ser expandidos usando blocos `subgraph`. Sistemas periféricos de parceiros são marcados como `[External System]`.
-- **Formatação de Nós**: `[Person]`, `[Software System]`, `[External System]`, `[Container: Tecnologia]`.
-- **Protocolos nas Relações**: Toda seta deve especificar a ação e o protocolo/formato: `Origem -->|"Ação (Protocolo: REST, gRPC, Kafka, etc)"| Destino`.
+- **Mandatory**: Every design doc must contain a C4 Container (Level 2) diagram.
+- **Pure and Technology-Agnostic**: C4 nodes represent software topology and runtime execution. It is strictly forbidden to embed Git repository URLs, squad names, or physical assignees inside C4 nodes.
+- **Mandatory Expansion**: Systems whose internal code/architecture will be modified must be expanded using `subgraph` blocks. Peripheral partner/external systems are tagged as `[External System]`.
+- **Node Formatting**: `[Person]`, `[Software System]`, `[External System]`, `[Container: Technology]`.
+- **Relationship Protocols**: Every relationship arrow must specify the action and protocol/format: `Origin -->|"Action (Protocol: REST, gRPC, Kafka, etc)"| Destination`.
 
-## 3. Diagramas de Sequência (`sequenceDiagram`)
+## 3. Sequence Diagrams (`sequenceDiagram`)
 
-- `autonumber` é mandatório.
-- Deve cobrir cenários felizes e tratamento de exceções usando blocos condicionais (`alt / else` e `opt`).
-- Qualificação semântica clara (atores humanos como `actor`, sistemas/componentes como `participant`).
+- `autonumber` is mandatory.
+- Must cover happy paths and exception handling using conditional blocks (`alt / else` and `opt`).
+- Clear semantic qualification (human actors as `actor`, systems/components as `participant`).
 
-## 4. Segurança, Privacidade e LGPD
+## 4. Security, Privacy, and Data Protection (GDPR, LGPD, etc.)
 
-- Se fluxos financeiros ou de transações de alto risco estiverem presentes, a arquitetura deve prever revisão explícita de AppSec.
-- Caso haja armazenamento de novos dados pessoais, o time de Governança de Dados / Privacidade (DPO) deve ser acionado de acordo com as políticas da organização.
+- If financial flows or high-risk transactions are present, the architecture must include an explicit AppSec review.
+- If storing or processing new personal data, the Data Governance / Privacy Team (DPO) must be engaged in compliance with applicable regulatory frameworks (such as GDPR, LGPD).
 
-## 5. Validações, Pre-commit e Commits (Husky)
+## 5. Validations, Pre-commit, and Commits (Husky)
 
-- **Integração de Qualidade Local:** Este repositório utiliza **Husky + lint-staged** com validações de formatação YAML (`prettier`), Schema Validation (`ajv-cli`) e formatação de Markdown (`markdownlint-cli2`).
-- **Markdown Lint:** O `markdownlint-cli2` é executado em todos os arquivos `.md`. As configurações globais de relaxamento de regras e pastas ignoradas residem no arquivo `.markdownlint-cli2.jsonc` na raiz. *(Nota: A pasta `templates/` pode conter um `.markdownlint.json` local para regras específicas de templates).*
-- **Alterações de Configuração:** Sempre que alterar o arquivo `templates/config.yaml`, o agente deve certificar-se de que a estrutura respeita o `templates/config.schema.json`. O hook do husky (via lint-staged) validará essas alterações e bloqueará os commits se estiverem incorretas.
-- **Prettier:** Formatação automatizada em JS, garantindo consistência no YAML sem regras estritas que exijam Python.
+- **Local Quality Integration:** This repository uses **Husky + lint-staged** with YAML formatting checks (`prettier`), JSON Schema validation (`ajv-cli`), and Markdown linting (`markdownlint-cli2`).
+- **Markdown Lint:** `markdownlint-cli2` runs on all `.md` files. Global rule overrides and directory ignores reside in `.markdownlint-cli2.jsonc` at the root. *(Note: The `templates/` folder may retain a local `.markdownlint.json` for template-specific rules).*
+- **Configuration Changes:** Whenever modifying `templates/config.yaml`, verify that the structure strictly conforms to `templates/config.schema.json`. Husky hooks (via lint-staged) validate these changes and will block commits if invalid.
+- **Prettier:** Automated JS-based formatting ensuring YAML consistency without requiring Python dependencies.
 
-## 6. Conventional Commits e Release
+## 6. Conventional Commits and Releases
 
-- **Commitlint:** Todos os commits devem obrigatoriamente seguir o padrão Angular (Conventional Commits). O hook `.husky/commit-msg` bloqueia mensagens fora do padrão. Exemplo: `feat: add new c4 diagram feature`, `fix: correct markdownlint rules`.
-- **Release:** Para gerar uma nova versão oficial (com changelog e tag), execute manualmente o comando `npm run release`. **Não altere o arquivo `plugin.json` ou `package.json` manualmente para fazer bump de versões**. O `release-it` faz a sincronia automaticamente baseada no histórico de commits.
+- **Commitlint:** All commits must strictly follow the Angular / Conventional Commits standard. The `.husky/commit-msg` hook blocks non-compliant messages. Example: `feat: add new c4 diagram feature`, `fix: correct markdownlint rules`.
+- **Release:** To publish a new official version (with automated changelog and Git tag), manually run `npm run release`. **Never modify `plugin.json` or `package.json` manually to bump versions**. `release-it` manages version synchronization automatically based on commit history.
 
-## 7. Ciclo de Vida de Specs e ADRs
+## 7. Specs and ADR Lifecycle
 
-- **Specs como ADRs:** Documentos de especificação e design criados durante a fase de planejamento não devem ser commitados como specs soltas. Eles devem ser estruturados e commitados diretamente no formato de *Architecture Decision Record* (ADR) durante o próprio passo de planejamento.
+- **Specs as ADRs:** Technical specification and design documents produced during the planning phase must not be committed as standalone loose specs. They must be structured and committed directly as an *Architecture Decision Record* (ADR) during the planning step itself.

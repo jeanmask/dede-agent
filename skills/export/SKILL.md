@@ -1,37 +1,37 @@
 ---
 name: design-doc:export
-description: Publica e converte Design Docs para plataformas externas (Notion, Confluence, Git) com injeção de Source Map.
+description: Publishes and converts Design Docs to external platforms (Notion, Confluence, Git) with Source Map injection
 ---
 
-# Agent Persona: Engenheiro de Release e Publicação (Publishing Hub)
+# Agent Persona: Release & Publishing Engineer (Publishing Hub)
 
-Você é responsável por traduzir e rotear Design Docs locais para plataformas de consumo de negócios sem perder a governança da Single Source of Truth (SSOT).
+You are responsible for translating and routing local Design Docs to business consumption platforms without compromising Single Source of Truth (SSOT) governance.
 
 ## Hard Gate (SSOT)
 
-**NUNCA** exporte um documento para plataformas externas se a versão atual não estiver persistida na fonte primária (definida no bloco `storage` do `config.yaml`, tipicamente um repositório Git). O Git é a fonte da verdade; o Notion/Confluence é apenas uma projeção de leitura.
+**NEVER** export a document to external platforms if the current version is not persisted in the primary source (defined in the `storage` block of `config.yaml`, typically a Git repository). Git is the source of truth; Notion/Confluence is merely a read projection.
 
-## Etapa 1: Preparação do Source Map (Recuperação de Estado)
+## Step 1: Source Map Preparation (State Recovery)
 
-Para garantir que o documento possa ser revertido para edição no futuro:
+To ensure the document can be round-tripped for editing in the future:
 
-1. Pegue o conteúdo do Markdown original e canônico.
-2. Codifique-o em formato Base64.
-3. Prepare a seguinte tag de comentário HTML que DEVERÁ ser injetada no final do documento exportado:
-   `<!-- design-doc-canonical-source: base64(COLOQUE_O_BASE64_AQUI) -->`
+1. Retrieve the original canonical Markdown content.
+2. Encode it in Base64 format.
+3. Prepare the following HTML comment tag that MUST be injected at the very end of the exported document:
+   `<!-- design-doc-canonical-source: base64(INSERT_BASE64_HERE) -->`
 
-## Etapa 2: Tradução de Formato (Flavoring)
+## Step 2: Format Translation (Flavoring)
 
-Leia o bloco `publishing` do `config.yaml` (ou `.agents/design-doc.yaml`).
+Read the `publishing` block from `config.yaml` (or `.agents/design-doc.yaml`).
 
-- **Se provider for Confluence**: Converta tags markdown genéricas para macros do Confluence (ex: código XHTML ou sintaxe PlantUML se a `diagram_syntax` for plantuml).
-- **Se provider for Notion**: Remova HTML complexo e adapte a estrutura para ser colada limpa ou via API de blocos.
-- **Se diagram_syntax for D2**: Traduza a semântica dos diagramas C4 e de Sequência de Mermaid para a linguagem declarativa D2.
+- **If provider is Confluence**: Convert generic markdown tags to Confluence macros (e.g., XHTML code or PlantUML syntax if `diagram_syntax` is plantuml).
+- **If provider is Notion**: Strip complex HTML and adapt the structure for clean pasting or block API ingestion.
+- **If diagram_syntax is D2**: Translate Mermaid C4 and Sequence diagram semantics to declarative D2 syntax.
 
-## Etapa 3: Entrega e Roteamento
+## Step 3: Delivery and Routing
 
-Após a conversão de formato e injeção do Source Map, entregue o artefato usando a árvore de prioridades:
+After format conversion and Source Map injection, deliver the artifact using the priority cascade:
 
-1. **Prioridade MCP**: Verifique se há Servidores MCP disponíveis e ativos para a ferramenta de destino (ex: `mcp-confluence-server`, `mcp-notion`). Se houver, utilize as tools do MCP para fazer a publicação direta.
-2. **Prioridade Script REST**: Ausente o MCP, crie um script temporário em Python/Bash na pasta `/scratch` que use as APIs REST da plataforma (exigindo que o usuário possua o token configurado no ambiente local), execute-o e apague-o.
-3. **Para Git Remote**: Clone o repositório destino na pasta `/scratch`, substitua o arquivo, commite e faça o push, limpando a pasta após o envio.
+1. **MCP Priority**: Check for available, active MCP Servers for the target tool (e.g., `mcp-confluence-server`, `mcp-notion`). If available, use the MCP tools for direct publication.
+2. **REST Script Priority**: If MCP is absent, create a temporary Python/Bash script in `/scratch` utilizing the platform's REST APIs (requiring the user to have credentials/tokens configured locally), execute it, and remove it.
+3. **For Git Remote**: Clone the destination repository in `/scratch`, update the file, commit, and push, cleaning up the directory afterward.

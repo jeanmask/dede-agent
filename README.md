@@ -2,77 +2,77 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-*🇺🇸 [Read this in English](README-en.md)*
+*🇧🇷 [Leia em Português](README-pt.md)*
 
-Conheça o **Dede: O Assistente de Design Docs**. Dede é um agente open-source do ecossistema Antigravity para criação, revisão e governança de Technical Design Docs. Ele impõe padrões arquiteturais, suporta templates dinâmicos e integra-se universalmente às suas skills de descoberta.
+Meet **Dede: The Design Doc Assistant**. Dede is an open-source Antigravity agent for creating, reviewing, and governing Technical Design Docs. He enforces architecture standards, supports dynamic templates, and provides universal handoff from discovery skills.
 
-## 🧠 Por que Design Docs? (E o Ciclo de Vida)
+## 🧠 Why Design Docs? (And the Lifecycle)
 
-Escrever um Design Doc (RFC) é a forma mais barata de errar no desenvolvimento de software. Ele alinha as expectativas dos stakeholders, previne falhas graves de arquitetura (como escolhas erradas de banco de dados ou nuvem feitas tardiamente) e elimina ruídos de comunicação antes que a primeira linha de código seja escrita.
+Writing a Design Doc (or RFC) is the cheapest way to make mistakes. It aligns stakeholders, prevents architectural bottlenecks (such as late database or cloud provider changes), and removes communication noise before a single line of code is written.
 
-**Referências Recomendadas:**
+**Recommended Reading:**
 
-- [How to write a good software design document](https://blog.pragmaticengineer.com/software-architecture-is-overrated/) (The Pragmatic Engineer / Gergely Orosz)
-- [Design Docs at Google](https://sre.google/sre-book/software-engineering-in-sre/) (Software Engineering at Google)
+- [How to write a good software design document](https://blog.pragmaticengineer.com/software-architecture-is-overrated/) (The Pragmatic Engineer)
+- [Design Docs at Google](https://sre.google/sre-book/software-engineering-in-sre/) (Google SWE)
 
-### O Fluxo de Trabalho do Dede
+### The Dede Workflow
 
 ```mermaid
 flowchart LR
-    A([Ideia / Brainstorming]) -->|/design-doc:create| B(Rascunho & Evolução)
-    B -->|/design-doc:review| C(Auditoria de Arquitetura)
-    C -->|/design-doc:export| D[(Publicação em Git/Wiki)]
+    A([Idea / Brainstorming]) -->|/design-doc:create| B(Draft & Evolution)
+    B -->|/design-doc:review| C(Architecture Audit)
+    C -->|/design-doc:export| D[(Publish & Git)]
 ```
 
-- **`/design-doc:create`**: Extrai o contexto de PRDs ou sessões de ideação (brainstorms) e gera o primeiro rascunho técnico baseado no template da sua empresa.
-- **`/design-doc:review`**: Inspeciona um design doc existente e aplica uma auditoria rígida baseada nas regras globais de governança e segurança.
-- **`/design-doc:export`**: Publica o documento aprovado em plataformas externas (Notion, Confluence, repositórios Git) injetando um Source Map bidirecional via Base64.
+- **`/design-doc:create`**: Extracts context from PRDs or brainstorms and generates the initial technical design doc based on corporate templates.
+- **`/design-doc:review`**: Audits the existing design doc against global architecture and security rules.
+- **`/design-doc:export`**: Publishes the approved document to external platforms (Notion, Confluence, Git) using a bidirectional Base64 Source Map.
 
-## 🛠️ Customização: Bring Your Own Template (BYOT)
+## 🛠️ Customization: Bring Your Own Template (BYOT)
 
-Você pode sobrescrever os templates padrões e definir perfis customizados criando um arquivo `.agents/dede.yaml` na raiz do seu projeto:
+You can override the default templates and define custom project profiles by creating a `.agents/dede.yaml` file in the root of your project:
 
 ```yaml
 profile: "ai_genai"
-template_path: "./docs/templates/meu_template_corporativo.md"
-language: "pt-BR"
+template_path: "./docs/templates/my_corporate_template.md"
+language: "en-US"
 ```
 
-## 🔌 Interoperabilidade Universal
+## 🔌 Universal Interoperability
 
-O Dede foi desenhado para agir como uma **Fonte Única de Verdade (SSOT)** para governança arquitetural. Você pode consumir as regras dele (`rules/AGENTS.md`) nas suas ferramentas de IA favoritas sem precisar duplicar arquivos.
+Dede is designed to act as a **Single Source of Truth** for architectural governance. You can consume his rules (`rules/AGENTS.md`) in your favorite AI tools without duplicating configurations.
 
 ### GitHub Copilot CLI (Terminal)
 
-Você pode injetar a governança do Dede direto no seu prompt criando um alias no `~/.bashrc` ou `~/.zshrc`:
+You can inject Dede's governance directly into your terminal prompts by creating an alias in your `~/.bashrc` or `~/.zshrc`:
 
 ```bash
-alias dede="gh copilot suggest -t shell 'Gere um technical design doc lendo rigorosamente as regras do arquivo ~/.gemini/config/plugins/dede-agent/rules/AGENTS.md'"
+alias dede="gh copilot suggest -t shell 'Generate a technical design doc strictly reading the rules in ~/.gemini/config/plugins/dede-agent/rules/AGENTS.md'"
 ```
 
 ### GitHub Copilot (IDE)
 
-Para forçar as regras do Dede em todo o seu time via Copilot no editor, crie um arquivo `.github/copilot-instructions.md` no seu projeto:
+Create a `.github/copilot-instructions.md` in your project and reference the rules:
 
 ```markdown
-# Arquitetura
-Consulte sempre as diretrizes globais de governança e diagramas C4 em:
+# Architecture
+Always consult the global governance guidelines and C4 diagrams at:
 `~/.gemini/config/plugins/dede-agent/rules/AGENTS.md`
 ```
 
 ### Cursor & Claude
 
-Basta copiar ou incluir o conteúdo de `rules/AGENTS.md` no `.cursorrules` ou `CLAUDE.md` do seu projeto local.
+Append the contents of `rules/AGENTS.md` into your project's `.cursorrules` or `CLAUDE.md`.
 
-## 🧪 Como Testar o Repositório Localmente (Husky)
+## 🧪 How to Test Locally (Husky)
 
-Para garantir que suas contribuições ao código ou às configurações (`templates/config.yaml`) não quebrem a governança do repositório, utilizamos o `pre-commit`.
+To ensure your contributions to the codebase or configuration files (`templates/config.yaml`) do not break the repository governance, we use `pre-commit`.
 
-1. Instale as dependências: `npm install`
-2. O Husky ativará os hooks do git automaticamente (via script prepare).
-3. Para testar manualmente: `npm run lint:md` e `npm run validate:schema`
+1. Install dependencies: `npm install`
+2. Husky will enable git hooks automatically (via prepare script).
+3. To run manually: `npm run lint:md` and `npm run validate:schema`
 
-Isso executará o `prettier`, `markdownlint-cli2` e `ajv-cli` garantindo os mesmos padrões do CI.
+This will execute `prettier`, `markdownlint-cli2` and `ajv-cli` enforcing the same standards as the CI pipeline.
 
 ---
-*Distribuído sob a licença MIT.*
+*Distributed under the MIT License.*

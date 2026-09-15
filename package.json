@@ -1,7 +1,7 @@
 {
   "name": "dede-agent",
   "version": "1.0.0",
-  "description": "Dede Agent: O Assistente de Design Docs",
+  "description": "Dede: The Design Doc Assistant. An autonomous agent for creating, reviewing, and governing Technical Design Docs.",
   "private": true,
   "scripts": {
     "prepare": "husky",
