@@ -1,0 +1,22 @@
+{
+  "git": {
+    "commitMessage": "chore(release): v${version}",
+    "tagName": "v${version}",
+    "push": true
+  },
+  "github": {
+    "release": true
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md"
+    }
+  },
+  "hooks": {
+    "after:bump": "sed -i \"s/\\\"version\\\": \\\"[0-9]*\\.[0-9]*\\.[0-9]*\\\"/\\\"version\\\": \\\"${version}\\\"/g\" plugin.json"
+  }
+}

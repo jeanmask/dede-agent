@@ -35,9 +35,14 @@ Design Docs são mandatórios para projetos com:
 - Se fluxos financeiros ou de transações de alto risco estiverem presentes, a arquitetura deve prever revisão explícita de AppSec.
 - Caso haja armazenamento de novos dados pessoais, o time de Governança de Dados / Privacidade (DPO) deve ser acionado de acordo com as políticas da organização.
 
-## 5. Validações e Pre-commit (Husky)
+## 5. Validações, Pre-commit e Commits (Husky)
 
 - **Integração de Qualidade Local:** Este repositório utiliza **Husky + lint-staged** com validações de formatação YAML (`prettier`), Schema Validation (`ajv-cli`) e formatação de Markdown (`markdownlint-cli2`).
 - **Markdown Lint:** O `markdownlint-cli2` é executado em todos os arquivos `.md`. As configurações de relaxamento de regras residem no arquivo `.markdownlint.json` na raiz e dentro da pasta `templates/`.
 - **Alterações de Configuração:** Sempre que alterar o arquivo `templates/config.yaml`, o agente deve certificar-se de que a estrutura respeita o `templates/config.schema.json`. O hook do husky (via lint-staged) validará essas alterações e bloqueará os commits se estiverem incorretas.
 - **Prettier:** Formatação automatizada em JS, garantindo consistência no YAML sem regras estritas que exijam Python.
+
+## 6. Conventional Commits e Release
+
+- **Commitlint:** Todos os commits devem obrigatoriamente seguir o padrão Angular (Conventional Commits). O hook `.husky/commit-msg` bloqueia mensagens fora do padrão. Exemplo: `feat: add new c4 diagram feature`, `fix: correct markdownlint rules`.
+- **Release:** Para gerar uma nova versão oficial (com changelog e tag), execute manualmente o comando `npm run release`. **Não altere o arquivo `plugin.json` ou `package.json` manualmente para fazer bump de versões**. O `release-it` faz a sincronia automaticamente baseada no histórico de commits.
