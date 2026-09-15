@@ -38,7 +38,7 @@ Design Docs são mandatórios para projetos com:
 ## 5. Validações, Pre-commit e Commits (Husky)
 
 - **Integração de Qualidade Local:** Este repositório utiliza **Husky + lint-staged** com validações de formatação YAML (`prettier`), Schema Validation (`ajv-cli`) e formatação de Markdown (`markdownlint-cli2`).
-- **Markdown Lint:** O `markdownlint-cli2` é executado em todos os arquivos `.md`. As configurações de relaxamento de regras residem no arquivo `.markdownlint.json` na raiz e dentro da pasta `templates/`.
+- **Markdown Lint:** O `markdownlint-cli2` é executado em todos os arquivos `.md`. As configurações globais de relaxamento de regras e pastas ignoradas residem no arquivo `.markdownlint-cli2.jsonc` na raiz. *(Nota: A pasta `templates/` pode conter um `.markdownlint.json` local para regras específicas de templates).*
 - **Alterações de Configuração:** Sempre que alterar o arquivo `templates/config.yaml`, o agente deve certificar-se de que a estrutura respeita o `templates/config.schema.json`. O hook do husky (via lint-staged) validará essas alterações e bloqueará os commits se estiverem incorretas.
 - **Prettier:** Formatação automatizada em JS, garantindo consistência no YAML sem regras estritas que exijam Python.
 
