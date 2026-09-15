@@ -46,3 +46,7 @@ Design Docs são mandatórios para projetos com:
 
 - **Commitlint:** Todos os commits devem obrigatoriamente seguir o padrão Angular (Conventional Commits). O hook `.husky/commit-msg` bloqueia mensagens fora do padrão. Exemplo: `feat: add new c4 diagram feature`, `fix: correct markdownlint rules`.
 - **Release:** Para gerar uma nova versão oficial (com changelog e tag), execute manualmente o comando `npm run release`. **Não altere o arquivo `plugin.json` ou `package.json` manualmente para fazer bump de versões**. O `release-it` faz a sincronia automaticamente baseada no histórico de commits.
+
+## 7. Ciclo de Vida de Specs e ADRs
+
+- **Specs como ADRs:** Documentos de especificação e design criados durante a fase de planejamento não devem ser commitados como specs soltas. Eles devem ser estruturados e commitados diretamente no formato de *Architecture Decision Record* (ADR) durante o próprio passo de planejamento.
