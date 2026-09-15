@@ -12,6 +12,7 @@
 A capacidade de gerar Design Docs corporativos começou como uma skill isolada. Com a decisão de tornar a solução um **Plugin Open-Source** compatível com múltiplas plataformas e ecossistemas (GitHub, GitLab, Jira, Linear, etc.), a arquitetura precisou evoluir para ser extensível, agnóstica a empresas (remoção de referências proprietárias) e modular.
 
 **Principais Motivadores da Reestruturação:**
+
 1. **Distribuição Open-Source**: O plugin deve ser instalável em qualquer ambiente Antigravity, suportando múltiplos idiomas (i18n) e permitindo que a comunidade (ou empresas) crie e compartilhe seus próprios perfis de template.
 2. **Templates Dinâmicos e Extensibilidade (BYOT)**: Empresas possuem formatos diferentes. A solução adota um sistema híbrido onde o template base pode ser sobrescrito pelo repositório local (`.agents/design-doc.yaml`).
 3. **Ingestão Inteligente (Zero a 100)**: Do suporte a PRDs/Specs estruturados até um Modo Entrevista (para quem não tem PRD) e a evolução de Design Docs Anteriores.
@@ -48,6 +49,7 @@ A estrutura adere às convenções do Antigravity Customization System e às boa
 ## 3. Especificação dos Componentes
 
 ### 3.1. Manifesto do Plugin (`plugin.json`)
+
 ```json
 {
   "name": "design-docs",
@@ -62,13 +64,17 @@ A estrutura adere às convenções do Antigravity Customization System e às boa
 Resolução em **3 camadas**, ideal para adoção corporativa descentralizada:
 
 #### A. Configuração Base do Plugin (`templates/config.yaml`)
+
 Define os perfis prontos para uso:
+
 - **`standard`**: Completo (arquitetura, infra, segurança, rollout).
 - **`lightweight`**: Ágil (remove dependências complexas e alternativas rígidas).
 - **`ai_genai`** (Inteligência Artificial): Adiciona blocos modulares críticos para IA.
 
 #### B. Sobrescrita no Workspace (`.agents/design-doc.yaml`)
+
 Permite que o usuário defina regras próprias no seu projeto e adote a abordagem **BYOT (Bring Your Own Template)**, apontando para um markdown customizado:
+
 ```yaml
 profile: "custom"
 template_path: "./docs/templates/meu_template_corporativo.md"
@@ -76,12 +82,15 @@ language: "pt-BR"
 ```
 
 #### C. Versionamento do Template (Proteção Histórica)
+
 Todo Design Doc gerado deverá possuir um cabeçalho fixo: `Template Version: v1.0 | Profile: [nome_do_perfil]`. Isso garante que a skill de `review` audite o documento com as regras de quando ele foi criado, evitando quebras futuras se o `config.yaml` evoluir.
 
 ---
 
 ### 3.3. Template Base: Agnóstico e Padrão de Indústria
+
 A estrutura do template (seja en ou pt) removeu qualquer acoplamento a ferramentas proprietárias (NOC 24x7 interno, e-mails hardcoded). A nova base adota os pilares da engenharia moderna:
+
 - **Separação Categórica**: "Objetivos Estratégicos & SLOs" (Visão macro) isolados de "Regras Objetivas de Solução" (Lógicas e contratos).
 - **Segurança em 3 Pilares**: Identidade/Acesso (OIDC/RBAC), Proteção de Dados (Vault/Criptografia) e Privacidade/LGPD/GDPR.
 - **Observabilidade**: OpenTelemetry, logs estruturados e métricas RED/USE.
@@ -90,7 +99,9 @@ A estrutura do template (seja en ou pt) removeu qualquer acoplamento a ferrament
 ---
 
 ### 3.4. O Perfil de IA & GenAI (`ai_genai`)
+
 Um diferencial do plugin open-source é trazer padrões maduros para engenharia de IA. Ao ativar este perfil, o template ganha seções mandatórias de:
+
 1. **Modelagem, RAG e Ciclo de Vida de Prompts**: Provedores primários/fallback, chunking, banco vetorial e, criticamente, **onde os prompts residem e como são versionados/deployados**.
 2. **Segurança, Evals e Privacidade**:
    - Defesa contra Prompt Injection e Jailbreak;
@@ -104,6 +115,7 @@ Um diferencial do plugin open-source é trazer padrões maduros para engenharia 
 ### 3.5. Skills do Plugin
 
 #### Skill `design-doc:create`
+
 - **Discoverability / onboarding**: Se iniciada no modo Entrevista (sem PRD), o agente apresenta ativamente os perfis disponíveis (`standard`, `lightweight`, `ai_genai`) antes de prosseguir.
 - **Multi-Entrada**: Ingestão fluida de PRDs (traduzindo produto em contexto de engenharia sem cópia literal) ou ingestão de Design Docs Anteriores (para evolução/Fase 2).
 - **Integração Universal via Handoff (Upstream Skills)**: A skill atua como a *Fase 2* (Formalização) para qualquer skill de ideação prévia (ex: `superpowers:brainstorming`, `grill-me`).
@@ -112,6 +124,7 @@ Um diferencial do plugin open-source é trazer padrões maduros para engenharia 
 - **Suporte Multilíngue (i18n)**: Detecta o idioma do prompt ou do workspace (pt-BR/en-US) e utiliza o respectivo template base.
 
 #### Skill `design-doc:review`
+
 - **Auditoria Histórica e Contextual**: Lê a tag `Template Version` e o `Profile` no cabeçalho do arquivo para aplicar as regras da época de geração.
 - **UX do Revisor**: A saída gera um **Checklist em Markdown (`- [ ]`)** diretamente acionável e enumerando os débitos arquiteturais. Isso permite copiar o feedback para plataformas como GitHub Issues ou Jira de forma amigável.
 

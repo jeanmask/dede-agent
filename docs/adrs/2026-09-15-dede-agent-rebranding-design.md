@@ -8,9 +8,11 @@
 ---
 
 ## 1. Visão Geral
+
 Decidimos evoluir a nomenclatura do mascote e agente. O projeto passa a se chamar **Dede Agent**. As diretrizes de separação entre marca e funcionalidade permanecem intactas (os comandos do Antigravity não mudam).
 
 ## 2. Alterações de Escopo
+
 1. **Diretório e Repositório**: Renomear fisicamente a pasta de `dede-agent` para `dede-agent`. Atualizar symlinks.
 2. **Documentação e Metadados**: Find-and-Replace rigoroso trocando "Dede" por "Dede" (respeitando capitalização) em:
    - `README.md`

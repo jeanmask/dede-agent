@@ -20,6 +20,7 @@ Esta especificação consolida os ajustes mandatórios implementados no `SKILL.m
 ## 2. Requisitos e Diretrizes Arquiteturais
 
 ### 2.1. Premissas dos Diagramas C4 Model
+
 1. **Presença Mínima Obrigatória**: Todo Design Doc deve conter **pelo menos um diagrama C4 Model**, com forte preferência para o **C4 Container (Nível 2)**. A inclusão do C4 Context (Nível 1) é opcional e recomendada quando for necessário evidenciar o ecossistema corporativo macro antes do detalhamento interno.
 2. **Expansão Mandatória dos Sistemas Modificados**:
    - Todo `Software System` que sofrer modificação, adição de novos contêineres ou que seja o objeto principal da iniciativa deve ser expandido visualmente em seus contêineres através de blocos `subgraph` do Mermaid.
@@ -34,6 +35,7 @@ Esta especificação consolida os ajustes mandatórios implementados no `SKILL.m
    - Formato padrão: `Origem -->|"Ação descrita (Protocolo/Formato: HTTPS/REST, gRPC, AMQP/Kafka, Git/SSH, SQL/TCP)"| Destino`.
 
 ### 2.2. Premissas dos Diagramas de Sequência
+
 1. **Numeração Automática**: Uso mandatório de `autonumber` no início do bloco `sequenceDiagram`.
 2. **Qualificação de Participantes**: Separação precisa entre `actor` (atores humanos) e `participant` (serviços ou contêineres com suas respectivas atribuições).
 3. **Caminhos Alternativos e Falhas**: Inclusão obrigatória de blocos `alt / else` cobrindo cenários de sucesso (ex: HTTP 200/201) e cenários de exceção, recusa ou falha (ex: HTTP 400/401/403/500, timeouts, rejeição por validação/gate).
@@ -44,15 +46,19 @@ Esta especificação consolida os ajustes mandatórios implementados no `SKILL.m
 ## 3. Detalhamento das Modificações no `SKILL.md`
 
 ### 3.1. Seção de Governança e Diretrizes Técnicas
+
 Substituída a diretriz de diagramas por uma subseção normativa detalhada:
+
 - Inclusão explícita das regras de modelagem C4 (Nível 2 preferencial, expansão em `subgraph`, metadados de 3 linhas `[Nome / Tipo: Tech / Descrição]`, diferenciação `[Software System]` vs `[External System]`, e protocolos nas setas).
 - Inclusão das regras de diagramas de sequência (`autonumber`, `alt/else`, mapeamento de status e participantes).
 
 ### 3.2. Seção 6.1 e 6.2 (Solução Existente no Template)
+
 - Atualizada a instrução da seção `6.1. Arquitetura` orientando a criação de C4 Container representando a arquitetura legada/atual, expandindo os sistemas que possuem código/componentes atuais.
 - Atualizada a seção `6.2. Fluxos` instruindo o `sequenceDiagram` com `autonumber` e `alt/else` mostrando as falhas ou limitações do fluxo atual.
 
 ### 3.3. Seção 7.2 e 7.4 (Solução Proposta no Template)
+
 - Atualizada a seção `7.2. Arquitetura` com instrução e estrutura de exemplo para C4 Container (Nível 2), onde os sistemas com novos componentes são agrupados em `subgraph SystemX["Sistema: ..."]`, os novos contêineres trazem suas tecnologias (`[Container: Node.js / Express]`, `[Container: Terraform / HCL]`, etc.), sistemas de terceiros são identificados com `[External System]`, e as setas contêm `(Protocolo: ...)`.
 - Atualizada a seção `7.4. Fluxos` com modelo de `sequenceDiagram` contendo `autonumber`, notas de gates/validações (`Note over ...`), e blocos `alt / else` para cenários de aprovação/sucesso e rejeição/erro.
 
