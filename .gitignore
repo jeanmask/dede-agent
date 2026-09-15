@@ -1,0 +1,15 @@
+# Temporary files and scratchpad
+/scratch/
+scratch/
+.scratch/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Node.js (if added later for testing)
+node_modules/
+npm-debug.log
+
+# Superpowers temporaries
+docs/superpowers/

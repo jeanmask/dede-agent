@@ -1,0 +1,46 @@
+version: "1.0"
+default_profile: "standard"
+
+profiles:
+  standard:
+    name: "Padrão Corporativo Completo"
+    description: "Projetos robustos com múltiplos repositórios e alta criticidade"
+    required_sections: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    optional_sections: [13, 14, 15]
+
+  lightweight:
+    name: "Fast-Track / Projeto Ágil"
+    description: "Iniciativas enxutas ou escopo isolado"
+    required_sections: [1, 2, 3, 4, 7, 8, 12]
+    optional_sections: [5, 6, 9, 10, 11, 13, 14, 15]
+    ignored_sections: ["7.5"] 
+
+  ai_genai:
+    name: "Inteligência Artificial & GenAI"
+    description: "Aplicações com LLMs, RAG, tool calling e Evals"
+    required_sections: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "ai_architecture_and_lifecycle", "ai_safety_and_evals", "finops_and_llmops"]
+
+custom_sections:
+  ai_architecture_and_lifecycle:
+    id: "ai_architecture_and_lifecycle"
+    title: "Arquitetura de IA, RAG e Versionamento de Prompts"
+    prompt: "Definir modelos, estratégia de RAG, tool calling e a estratégia de versionamento e deploy autônomo de prompts."
+  ai_safety_and_evals:
+    id: "ai_safety_and_evals"
+    title: "Segurança, Privacidade de Dados e Evals"
+    prompt: "Definir framework de Evals (Métricas de groundedness), mitigação de Prompt Injection, UX Fallbacks e garantias de Data Residency / Opt-out de treinamento."
+  finops_and_llmops:
+    id: "finops_and_llmops"
+    title: "FinOps de IA & LLMOps"
+    prompt: "Custos estimados de tokens, caching de contexto, TTFT e tracing de spans LLM."
+
+storage:
+  primary: "git_remote"
+  path: "./docs/adrs"
+
+publishing:
+  provider: "confluence"
+  diagram_syntax: "plantuml"
+  target_auth:
+    space_key: "ARCH"
+

@@ -1,0 +1,6 @@
+{
+  "name": "dede-agent",
+  "description": "Dede: The Design Doc Assistant. An autonomous agent for creating, reviewing, and governing Technical Design Docs.",
+  "version": "1.0.0",
+  "repository": "https://github.com/org/dede-agent"
+}
