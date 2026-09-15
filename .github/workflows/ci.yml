@@ -2,9 +2,9 @@ name: Plugin Quality CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   markdownlint:
@@ -36,4 +36,4 @@ jobs:
       - name: Install ajv-cli
         run: npm install -g ajv-cli
       - name: Validate config.yaml against schema
-        run: ajv validate -s templates/config.schema.json -d templates/config.yaml --valid
+        run: ajv validate -s templates/config.schema.json -d templates/config.yaml

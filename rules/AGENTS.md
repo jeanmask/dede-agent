@@ -34,3 +34,10 @@ Design Docs são mandatórios para projetos com:
 
 - Se fluxos financeiros ou de transações de alto risco estiverem presentes, a arquitetura deve prever revisão explícita de AppSec.
 - Caso haja armazenamento de novos dados pessoais, o time de Governança de Dados / Privacidade (DPO) deve ser acionado de acordo com as políticas da organização.
+
+## 5. Validações e Pre-commit
+
+- **Integração de Qualidade Local:** Este repositório utiliza o `pre-commit` com validações rigorosas de YAML (`yamllint`), Schema Validation (`ajv-cli`) e formatação de Markdown (`markdownlint-cli2`).
+- **Markdown Lint:** O `markdownlint-cli2` é executado em todos os arquivos `.md`. As configurações de relaxamento de regras (como line-length) residem no arquivo `.markdownlint.json` na raiz e dentro da pasta `templates/`.
+- **Alterações de Configuração:** Sempre que alterar o arquivo `templates/config.yaml`, o agente deve certificar-se de que a estrutura respeita o `templates/config.schema.json`. O pre-commit hook validará essas alterações e bloqueará os commits se estiverem incorretas.
+- **Yamllint:** Respeite a configuração `.yamllint.yaml` atual (que afrouxa regras de tamanho de linha e `document-start`), mas procure manter o formato base do YAML consistente.

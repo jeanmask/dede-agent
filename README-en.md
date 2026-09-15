@@ -64,5 +64,15 @@ Always consult the global governance guidelines and C4 diagrams at:
 
 Append the contents of `rules/AGENTS.md` into your project's `.cursorrules` or `CLAUDE.md`.
 
+## 🧪 How to Test Locally (Pre-commit)
+
+To ensure your contributions to the codebase or configuration files (`templates/config.yaml`) do not break the repository governance, we use `pre-commit`.
+
+1. Install pre-commit locally: `pip install pre-commit` (or via Homebrew: `brew install pre-commit`)
+2. Enable the git hooks: `pre-commit install`
+3. To manually run and test all files: `pre-commit run --all-files`
+
+This will execute `yamllint` and `ajv-cli` (schema validation) enforcing the same standards as the CI pipeline.
+
 ---
 *Distributed under the MIT License.*
