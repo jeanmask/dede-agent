@@ -1,4 +1,4 @@
-# ADR 005: Pre-commit e Validação YAML / Schema
+# ADR 005: Pre-commit Centralizado em JS (Husky)
 
 **Status:** Aceito
 **Data:** 2026-09-15
@@ -6,20 +6,21 @@
 ## Contexto e Problema
 
 A validação atual de YAML e do JSON Schema era realizada estritamente durante o fluxo de Continuous Integration (CI) utilizando as Actions `action-yamllint` e `ajv-cli`.
-Isso ocasionava loops de feedback lentos caso o desenvolvedor cometesse erros de sintaxe ou de formatação no arquivo de configuração, descobrindo o problema apenas após um push para o repositório remoto.
+Isso ocasionava loops de feedback lentos caso o desenvolvedor cometesse erros de sintaxe ou de formatação no arquivo de configuração, descobrindo o problema apenas após um push. Além disso, as ferramentas eram heterogêneas (Python para `yamllint`, Node para `ajv-cli` e `markdownlint`).
 
 ## Decisão
 
-Foi decidido implementar a validação local por meio da adoção do `pre-commit`.
-O `pre-commit` é o padrão da indústria para a gestão de git hooks locais, permitindo a execução rápida e segura das validações antes da criação dos commits.
+Foi decidido padronizar todas as validações de código e formatação utilizando o ecossistema JavaScript/Node.js, adotando o **Husky** com **lint-staged**.
+Isso elimina a necessidade de instalar Python e o framework `pre-commit` localmente.
 
-Adotamos a seguinte arquitetura de validação no `.pre-commit-config.yaml`:
+Adotamos a seguinte arquitetura no `package.json`:
 
-1. **Yamllint:** Utilização do hook oficial do repositório do `yamllint`. Para evitar burocracia e conflitos com textos e links longos em Markdown/YAML, utilizamos um `.yamllint.yaml` customizado relaxando `line-length` e desativando a exigência de `document-start`.
-2. **AJV-CLI (Schema Validation):** Para manter paridade total (1:1) com o fluxo de CI, configuramos um hook `local` executando diretamente `npx ajv-cli validate`. Isso assegura o uso da mesma engine do CI sem adicionar dependências incompatíveis ou hooks paralelos que validadariam os schemas de forma distinta.
-3. **Markdown Lint (`markdownlint-cli2`):** Adicionado um hook `local` executando diretamente `npx markdownlint-cli2` para validar formatações de documentação, refletindo a CI e utilizando os arquivos de configuração `.markdownlint.json`.
+1. **Husky & lint-staged:** Os hooks de git disparam apenas nos arquivos atualmente sendo commitados (staged), deixando o pre-commit rápido.
+2. **Prettier:** Substituiu o `yamllint` (Python). Ele garante auto-formatação sem falsos positivos rigorosos (como limites estritos de linha em YAMLs descritivos).
+3. **AJV-CLI (Schema Validation):** Configurado para validar apenas o `templates/config.yaml` contra o schema JSON.
+4. **Markdown Lint (`markdownlint-cli2`):** Integrado como auto-fix para padronizar os documentos.
 
 ## Consequências
 
-- **Positivas:** Feedback instantâneo para desenvolvedores ao modificar configurações (como `templates/config.yaml`), evitando commits de regras quebradas.
-- **Negativas:** Exige que todos os contribuidores tenham o ambiente minimamente configurado (Node.js e Python) e executem `pre-commit install` localmente para usufruir da validação.
+- **Positivas:** Um único sistema de dependências (`npm`). Auto-fix aplicado automaticamente em arquivos `.md` e `.yaml` no momento do commit via `lint-staged`. CI perfeitamente em paridade com o ambiente local.
+- **Negativas:** Requer instalação do Node.js (algo já onipresente no ecossistema moderno) e `npm install` após clonar.

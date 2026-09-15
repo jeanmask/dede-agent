@@ -1,0 +1,32 @@
+{
+  "name": "dede-agent",
+  "version": "1.0.0",
+  "description": "Dede Agent: O Assistente de Design Docs",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "lint:md": "markdownlint-cli2 \"**/*.md\"",
+    "lint:md:fix": "markdownlint-cli2 \"**/*.md\" --fix",
+    "lint:yaml": "prettier --check \"**/*.{yml,yaml}\"",
+    "lint:yaml:fix": "prettier --write \"**/*.{yml,yaml}\"",
+    "validate:schema": "ajv validate -s templates/config.schema.json -d templates/config.yaml"
+  },
+  "lint-staged": {
+    "**/*.md": [
+      "markdownlint-cli2 --fix"
+    ],
+    "**/*.{yml,yaml}": [
+      "prettier --write"
+    ],
+    "templates/config.yaml": [
+      "ajv validate -s templates/config.schema.json -d"
+    ]
+  },
+  "devDependencies": {
+    "ajv-cli": "^5.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "markdownlint-cli2": "^0.14.0",
+    "prettier": "^3.0.0"
+  }
+}

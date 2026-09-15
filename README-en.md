@@ -64,15 +64,15 @@ Always consult the global governance guidelines and C4 diagrams at:
 
 Append the contents of `rules/AGENTS.md` into your project's `.cursorrules` or `CLAUDE.md`.
 
-## 🧪 How to Test Locally (Pre-commit)
+## 🧪 How to Test Locally (Husky)
 
 To ensure your contributions to the codebase or configuration files (`templates/config.yaml`) do not break the repository governance, we use `pre-commit`.
 
-1. Install pre-commit locally: `pip install pre-commit` (or via Homebrew: `brew install pre-commit`)
-2. Enable the git hooks: `pre-commit install`
-3. To manually run and test all files: `pre-commit run --all-files`
+1. Install dependencies: `npm install`
+2. Husky will enable git hooks automatically (via prepare script).
+3. To run manually: `npm run lint:md` and `npm run validate:schema`
 
-This will execute `yamllint` and `ajv-cli` (schema validation) enforcing the same standards as the CI pipeline.
+This will execute `prettier`, `markdownlint-cli2` and `ajv-cli` enforcing the same standards as the CI pipeline.
 
 ---
 *Distributed under the MIT License.*

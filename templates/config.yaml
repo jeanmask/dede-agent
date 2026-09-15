@@ -18,7 +18,24 @@ profiles:
   ai_genai:
     name: "Inteligência Artificial & GenAI"
     description: "Aplicações com LLMs, RAG, tool calling e Evals"
-    required_sections: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "ai_architecture_and_lifecycle", "ai_safety_and_evals", "finops_and_llmops"]
+    required_sections:
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        "ai_architecture_and_lifecycle",
+        "ai_safety_and_evals",
+        "finops_and_llmops",
+      ]
 
 custom_sections:
   ai_architecture_and_lifecycle:

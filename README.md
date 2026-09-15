@@ -64,15 +64,15 @@ Consulte sempre as diretrizes globais de governança e diagramas C4 em:
 
 Basta copiar ou incluir o conteúdo de `rules/AGENTS.md` no `.cursorrules` ou `CLAUDE.md` do seu projeto local.
 
-## 🧪 Como Testar o Repositório Localmente (Pre-commit)
+## 🧪 Como Testar o Repositório Localmente (Husky)
 
 Para garantir que suas contribuições ao código ou às configurações (`templates/config.yaml`) não quebrem a governança do repositório, utilizamos o `pre-commit`.
 
-1. Instale o pre-commit localmente: `pip install pre-commit` (ou instale via Homebrew: `brew install pre-commit`)
-2. Ative os hooks no repositório: `pre-commit install`
-3. Para rodar manualmente e testar todos os arquivos: `pre-commit run --all-files`
+1. Instale as dependências: `npm install`
+2. O Husky ativará os hooks do git automaticamente (via script prepare).
+3. Para testar manualmente: `npm run lint:md` e `npm run validate:schema`
 
-Isso executará o `yamllint` e o `ajv-cli` (validação de schema) garantindo os mesmos padrões do CI.
+Isso executará o `prettier`, `markdownlint-cli2` e `ajv-cli` garantindo os mesmos padrões do CI.
 
 ---
 *Distribuído sob a licença MIT.*
