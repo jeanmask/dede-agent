@@ -6,7 +6,7 @@
 
 Meet **Dede: The Design Doc Assistant**. Dede is an open-source Antigravity agent for creating, reviewing, and governing Technical Design Docs. He enforces architecture standards, supports dynamic templates, and provides universal handoff from discovery skills.
 
-## 🧠 Why Design Docs? (And the Lifecycle)
+## 🧠 Why Design Docs?
 
 Writing a Design Doc (or RFC) is the cheapest way to make mistakes. It aligns stakeholders, prevents architectural bottlenecks (such as late database or cloud provider changes), and removes communication noise before a single line of code is written.
 

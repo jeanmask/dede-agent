@@ -6,7 +6,7 @@
 
 Conheça o **Dede: O Assistente de Design Docs**. Dede é um agente open-source do ecossistema Antigravity para criação, revisão e governança de Technical Design Docs. Ele impõe padrões arquiteturais, suporta templates dinâmicos e integra-se universalmente às suas skills de descoberta.
 
-## 🧠 Por que Design Docs? (E o Ciclo de Vida)
+## 🧠 Por que Design Docs?
 
 Escrever um Design Doc (RFC) é a forma mais barata de errar no desenvolvimento de software. Ele alinha as expectativas dos stakeholders, previne falhas graves de arquitetura (como escolhas erradas de banco de dados ou nuvem feitas tardiamente) e elimina ruídos de comunicação antes que a primeira linha de código seja escrita.
 
